@@ -1,3 +1,5 @@
+fyne.io/fyne/v2 v2.7.1 h1:ja7rNHWWEooha4XBIZNnPP8tVFwmTfwMJdpZmLxm2Zc=
+fyne.io/fyne/v2 v2.7.1/go.mod h1:xClVlrhxl7D+LT+BWYmcrW4Nf+dJTvkhnPgji7spAwE=
 github.com/ziedyousfi/typr-io-go v0.1.1 h1:RwVHgDpAsCJpjZsDfeiVNbnO7oKetxFOTFhSXFlccTM=
 github.com/ziedyousfi/typr-io-go v0.1.1/go.mod h1:Gy6XbxWERxv4fZiuTnB4RilJ8ZBTMBE5V/9rgkGLNH0=
 github.com/ziedyousfi/typr-io-go v0.1.2 h1:qIBeP9AgSoXwB5+FzP265nF9Fah8VQ4hqK118l8sASI=
