@@ -4,7 +4,7 @@ go 1.25.5
 
 require fyne.io/fyne/v2 v2.7.1
 
-require github.com/ziedyousfi/typr-io-go v0.2.0
+require github.com/ziedyousfi/typr-io-go v0.2.1
 
 require (
 	fyne.io/systray v1.11.1-0.20250603113521-ca66a66d8b58 // indirect
