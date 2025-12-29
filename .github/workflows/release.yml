@@ -103,7 +103,9 @@ jobs:
             libxxf86vm-dev \
             libwayland-dev \
             libffi-dev \
-            libvulkan-dev
+            libvulkan-dev \
+            libudev-dev \
+            libinput-dev \
 
           # Install cross-compilation toolchain for ARM64
           if [ "${{ matrix.arch }}" == "arm64" ]; then
