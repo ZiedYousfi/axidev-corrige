@@ -171,24 +171,15 @@ jobs:
             echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build binary with MSVC
-        shell: powershell
+      - name: Build binary with MinGW
+        shell: bash
         env:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.goarch }}
-          CC: clang-cl.exe
-          CXX: clang-cl.exe
-          CGO_CFLAGS: -Wno-error=unknown-argument -Wno-error=unused-macros -Wno-error=reserved-identifier -Wno-error=missing-prototypes
-          CGO_LDFLAGS: -Wno-error=unknown-argument
+          CC: gcc
         run: |
-          $vsPath = (vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath).Trim()
-          if (-not $vsPath) {
-            throw "could not find Visual Studio installation"
-          }
-          $vcvars = "$vsPath\VC\Auxiliary\Build\vcvars64.bat"
-          $cmd = "call `"$vcvars`" && go build -o typr-corrige-windows-${{ matrix.arch }}.exe ."
-          cmd /c $cmd
+          go build -o typr-corrige-windows-${{ matrix.arch }}.exe .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
