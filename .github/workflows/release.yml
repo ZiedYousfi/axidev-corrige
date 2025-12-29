@@ -71,16 +71,18 @@ jobs:
 
   build-linux:
     name: Build Linux
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
         include:
           - arch: amd64
             goarch: amd64
             cc: gcc
+            runs-on: ubuntu-latest
           - arch: arm64
             goarch: arm64
             cc: aarch64-linux-gnu-gcc
+            runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
