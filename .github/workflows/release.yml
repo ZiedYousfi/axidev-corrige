@@ -58,16 +58,6 @@ jobs:
           name: typr-corrige-darwin-${{ matrix.arch }}
           path: typr-corrige-darwin-${{ matrix.arch }}
 
-      - name: Upload to release
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./typr-corrige-darwin-${{ matrix.arch }}
-          asset_name: typr-corrige-darwin-${{ matrix.arch }}
-          asset_content_type: application/octet-stream
 
   build-linux:
     name: Build Linux
@@ -103,26 +93,31 @@ jobs:
             libxrandr-dev \
             libxinerama-dev \
             libxi-dev \
-            libxxf86vm-dev
+            libxxf86vm-dev \
+            libxkbcommon-dev \
+            libwayland-dev \
+            libwayland-egl-dev
 
           # Install cross-compilation toolchain for ARM64
           if [ "${{ matrix.arch }}" == "arm64" ]; then
             sudo dpkg --add-architecture arm64
             sudo apt-get update
             sudo apt-get install -y \
-              gcc-aarch64-linux-gnu \
-              g++-aarch64-linux-gnu \
-              libgl1-mesa-dev:arm64 \
-              libx11-dev:arm64 \
-              libxcursor-dev:arm64 \
-              libxrandr-dev:arm64 \
-              libxinerama-dev:arm64 \
-              libxi-dev:arm64 \
-              libxxf86vm-dev:arm64 \
-              libxkbcommon-dev:arm64 \
-              libudev-dev:arm64 \
-              libinput-dev:arm64 \
-              libstdc++-13-dev:arm64
+                gcc-aarch64-linux-gnu \
+                g++-aarch64-linux-gnu \
+                libgl1-mesa-dev:arm64 \
+                libx11-dev:arm64 \
+                libxcursor-dev:arm64 \
+                libxrandr-dev:arm64 \
+                libxinerama-dev:arm64 \
+                libxi-dev:arm64 \
+                libxxf86vm-dev:arm64 \
+                libxkbcommon-dev:arm64 \
+                libwayland-dev:arm64 \
+                libwayland-egl-dev:arm64 \
+                libudev-dev:arm64 \
+                libinput-dev:arm64 \
+                libstdc++-13-dev:arm64
           fi
 
       - name: Get version
@@ -149,16 +144,6 @@ jobs:
           name: typr-corrige-linux-${{ matrix.arch }}
           path: typr-corrige-linux-${{ matrix.arch }}
 
-      - name: Upload to release
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./typr-corrige-linux-${{ matrix.arch }}
-          asset_name: typr-corrige-linux-${{ matrix.arch }}
-          asset_content_type: application/octet-stream
 
   build-windows:
     name: Build Windows
@@ -209,13 +194,88 @@ jobs:
           name: typr-corrige-windows-${{ matrix.arch }}
           path: typr-corrige-windows-${{ matrix.arch }}.exe
 
-      - name: Upload to release
-        if: github.event_name == 'release'
+  publish-release:
+    name: Publish to Release
+    runs-on: ubuntu-latest
+    needs: [build-macos, build-linux, build-windows]
+    if: github.event_name == 'release'
+    steps:
+      - name: Download darwin-amd64 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: typr-corrige-darwin-amd64
+          path: ./typr-corrige-darwin-amd64
+
+      - name: Download darwin-arm64 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: typr-corrige-darwin-arm64
+          path: ./typr-corrige-darwin-arm64
+
+      - name: Download linux-amd64 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: typr-corrige-linux-amd64
+          path: ./typr-corrige-linux-amd64
+
+      - name: Download linux-arm64 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: typr-corrige-linux-arm64
+          path: ./typr-corrige-linux-arm64
+
+      - name: Download windows-amd64 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: typr-corrige-windows-amd64
+          path: ./typr-corrige-windows-amd64.exe
+
+      - name: Upload darwin-amd64 to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./typr-corrige-windows-${{ matrix.arch }}.exe
-          asset_name: typr-corrige-windows-${{ matrix.arch }}.exe
+          asset_path: ./typr-corrige-darwin-amd64
+          asset_name: typr-corrige-darwin-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload darwin-arm64 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./typr-corrige-darwin-arm64
+          asset_name: typr-corrige-darwin-arm64
+          asset_content_type: application/octet-stream
+
+      - name: Upload linux-amd64 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./typr-corrige-linux-amd64
+          asset_name: typr-corrige-linux-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload linux-arm64 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./typr-corrige-linux-arm64
+          asset_name: typr-corrige-linux-arm64
+          asset_content_type: application/octet-stream
+
+      - name: Upload windows-amd64 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./typr-corrige-windows-amd64.exe
+          asset_name: typr-corrige-windows-amd64.exe
           asset_content_type: application/octet-stream
