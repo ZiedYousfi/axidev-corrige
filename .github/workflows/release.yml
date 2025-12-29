@@ -177,11 +177,6 @@ jobs:
         with:
           go-version: "1.25"
 
-      - name: Install dependencies
-        run: |
-          # Ensure MinGW-w64 is available for CGO
-          choco install mingw -y
-
       - name: Get version
         id: version
         shell: bash
@@ -192,12 +187,19 @@ jobs:
             echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build binary
+      - name: Build binary with MSVC
+        shell: powershell
         env:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.goarch }}
+          CC: cl.exe
         run: |
+          $vsPath = (vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath).Trim()
+          if (-not $vsPath) {
+            throw "could not find Visual Studio installation"
+          }
+          & "$vsPath\VC\Auxiliary\Build\vcvars64.bat"
           go build -o typr-corrige-windows-${{ matrix.arch }}.exe .
 
       - name: Upload artifact
