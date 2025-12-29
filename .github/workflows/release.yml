@@ -102,7 +102,6 @@ jobs:
             libxkbcommon-x11-dev \
             libxxf86vm-dev \
             libwayland-dev \
-            libwayland-egl1-mesa-dev \
             libffi-dev \
             libvulkan-dev
 
@@ -195,7 +194,7 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CC: clang-cl.exe
           CXX: clang-cl.exe
-          CGO_CFLAGS: -Wno-error=unknown-argument -Wno-error=unknown-warning
+          CGO_CFLAGS: -Wno-error=unknown-argument
           CGO_LDFLAGS: -Wno-error=unknown-argument
         run: |
           $vsPath = (vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath).Trim()
