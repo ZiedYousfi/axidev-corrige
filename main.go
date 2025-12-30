@@ -6,10 +6,13 @@ import (
 	"os"
 
 	"gioui.org/app"
+
+	axidevio "github.com/ziedyousfi/axidev-io-go"
 	"github.com/ziedyousfi/axidev-io-go/keyboard"
 )
 
 func main() {
+	axidevio.SetLogLevel(axidevio.LogLevelWarn)
 	fmt.Println("Listening for keyboard events... (Press Space to clear word)")
 
 	// Initialize spellchecker
