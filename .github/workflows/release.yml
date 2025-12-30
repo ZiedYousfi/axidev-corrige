@@ -50,13 +50,13 @@ jobs:
           GOOS: darwin
           GOARCH: ${{ matrix.goarch }}
         run: |
-          go build -o typr-corrige-darwin-${{ matrix.arch }} .
+          go build -o axidev-corrige-darwin-${{ matrix.arch }} .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: typr-corrige-darwin-${{ matrix.arch }}
-          path: typr-corrige-darwin-${{ matrix.arch }}
+          name: axidev-corrige-darwin-${{ matrix.arch }}
+          path: axidev-corrige-darwin-${{ matrix.arch }}
 
 
   build-linux:
@@ -135,13 +135,13 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CC: ${{ matrix.cc }}
         run: |
-          go build -o typr-corrige-linux-${{ matrix.arch }} .
+          go build -o axidev-corrige-linux-${{ matrix.arch }} .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: typr-corrige-linux-${{ matrix.arch }}
-          path: typr-corrige-linux-${{ matrix.arch }}
+          name: axidev-corrige-linux-${{ matrix.arch }}
+          path: axidev-corrige-linux-${{ matrix.arch }}
 
 
   build-windows:
@@ -179,13 +179,13 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CC: gcc
         run: |
-          go build -o typr-corrige-windows-${{ matrix.arch }}.exe .
+          go build -o axidev-corrige-windows-${{ matrix.arch }}.exe .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: typr-corrige-windows-${{ matrix.arch }}
-          path: typr-corrige-windows-${{ matrix.arch }}.exe
+          name: axidev-corrige-windows-${{ matrix.arch }}
+          path: axidev-corrige-windows-${{ matrix.arch }}.exe
 
   publish-release:
     name: Publish to Release
@@ -196,31 +196,31 @@ jobs:
       - name: Download darwin-amd64 artifact
         uses: actions/download-artifact@v4
         with:
-          name: typr-corrige-darwin-amd64
+          name: axidev-corrige-darwin-amd64
           path: ./artifacts
 
       - name: Download darwin-arm64 artifact
         uses: actions/download-artifact@v4
         with:
-          name: typr-corrige-darwin-arm64
+          name: axidev-corrige-darwin-arm64
           path: ./artifacts
 
       - name: Download linux-amd64 artifact
         uses: actions/download-artifact@v4
         with:
-          name: typr-corrige-linux-amd64
+          name: axidev-corrige-linux-amd64
           path: ./artifacts
 
       - name: Download linux-arm64 artifact
         uses: actions/download-artifact@v4
         with:
-          name: typr-corrige-linux-arm64
+          name: axidev-corrige-linux-arm64
           path: ./artifacts
 
       - name: Download windows-amd64 artifact
         uses: actions/download-artifact@v4
         with:
-          name: typr-corrige-windows-amd64
+          name: axidev-corrige-windows-amd64
           path: ./artifacts
 
       - name: Upload darwin-amd64 to release
@@ -229,8 +229,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/typr-corrige-darwin-amd64
-          asset_name: typr-corrige-darwin-amd64
+          asset_path: ./artifacts/axidev-corrige-darwin-amd64
+          asset_name: axidev-corrige-darwin-amd64
           asset_content_type: application/octet-stream
 
       - name: Upload darwin-arm64 to release
@@ -239,8 +239,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/typr-corrige-darwin-arm64
-          asset_name: typr-corrige-darwin-arm64
+          asset_path: ./artifacts/axidev-corrige-darwin-arm64
+          asset_name: axidev-corrige-darwin-arm64
           asset_content_type: application/octet-stream
 
       - name: Upload linux-amd64 to release
@@ -249,8 +249,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/typr-corrige-linux-amd64
-          asset_name: typr-corrige-linux-amd64
+          asset_path: ./artifacts/axidev-corrige-linux-amd64
+          asset_name: axidev-corrige-linux-amd64
           asset_content_type: application/octet-stream
 
       - name: Upload linux-arm64 to release
@@ -259,8 +259,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/typr-corrige-linux-arm64
-          asset_name: typr-corrige-linux-arm64
+          asset_path: ./artifacts/axidev-corrige-linux-arm64
+          asset_name: axidev-corrige-linux-arm64
           asset_content_type: application/octet-stream
 
       - name: Upload windows-amd64 to release
@@ -269,6 +269,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/typr-corrige-windows-amd64.exe
-          asset_name: typr-corrige-windows-amd64.exe
+          asset_path: ./artifacts/axidev-corrige-windows-amd64.exe
+          asset_name: axidev-corrige-windows-amd64.exe
           asset_content_type: application/octet-stream
