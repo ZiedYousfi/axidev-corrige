@@ -49,6 +49,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: darwin
           GOARCH: ${{ matrix.goarch }}
+          CGO_LDFLAGS: "-lstdc++"
         run: |
           go build -o axidev-corrige-darwin-${{ matrix.arch }} .
 
@@ -133,6 +134,7 @@ jobs:
           GOOS: linux
           GOARCH: ${{ matrix.goarch }}
           CC: ${{ matrix.cc }}
+          CGO_LDFLAGS: "-lstdc++"
         run: |
           go build -o axidev-corrige-linux-${{ matrix.arch }} .
 
@@ -194,6 +196,7 @@ jobs:
           CGO_ENABLED: 1
           GOOS: windows
           GOARCH: ${{ matrix.goarch }}
+          CGO_LDFLAGS: "-lstdc++"
         run: |
           go build -o axidev-corrige-windows-${{ matrix.arch }}.exe .
 
